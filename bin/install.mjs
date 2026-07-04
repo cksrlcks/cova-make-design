@@ -49,8 +49,4 @@ if (existsSync(dest)) rmSync(dest, { recursive: true }); // 재설치 시 이전
 cpSync(src, dest, { recursive: true });
 
 console.log(`✔ cova-make-design 스킬 설치 완료 → ${dest}`);
-console.log(`
-다음 단계:
-  - Claude Code에서 "AI 시안 만들기"라고 요청하면 스킬이 동작합니다.
-  - API 주소 기본값은 https://uxis-cova.vercel.app 입니다(COVA_API_URL로 교체 가능).
-  - COVA 업로드 시 브라우저 로그인으로 자동 인증됩니다(고급: COVA_DESIGN_TOKEN으로 수동 지정 가능).`);
+console.log(`\nClaude Code에서 "AI 시안 만들기"라고 요청하면 스킬이 동작합니다.`);
