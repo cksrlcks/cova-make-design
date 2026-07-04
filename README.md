@@ -31,7 +31,6 @@ Playwright로 자체 점검하고 → (원하면) COVA에 업로드합니다.
 | 환경변수 | 필수 | 설명 |
 |---|---|---|
 | `COVA_API_URL` | 아니오 | 기본값 `https://uxis-cova.vercel.app`. 다른 배포를 쓸 때만 교체 |
-| `COVA_DESIGN_TOKEN` | 아니오 | 업로드는 기본적으로 브라우저 로그인으로 자동 인증됩니다(토큰은 `~/.cova/credentials`에 저장). CI 등에서 수동 지정할 때만 사용 |
 
 ## 구성
 
