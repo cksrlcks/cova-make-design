@@ -84,12 +84,14 @@ AUTH_ID=$(echo "$AUTH" | sed -n 's/.*"authId":"\([^"]*\)".*/\1/p')
 VERIFY_URL=$(echo "$AUTH" | sed -n 's/.*"verifyUrl":"\([^"]*\)".*/\1/p')
 ```
 
+`AUTH_ID`가 비어 있으면 서버 오류다 — 사용자에게 안내하고 업로드를 중단한다(로컬 결과로 7단계 진행).
+
 `VERIFY_URL`을 사용자에게 **눈에 띄게** 안내한다: "이 링크를 브라우저에서 열어
 로그인한 뒤 [승인]을 눌러주세요." 그리고 승인될 때까지 폴링한다(5초 간격,
 백그라운드 실행 권장 — 세션은 10분 뒤 만료):
 
 ```bash
-while :; do
+for i in $(seq 1 130); do   # 5초 × 130 ≈ 11분 (세션 만료 + 여유)
   RES=$(curl -s -w '\n%{http_code}' "$BASE/api/public/cli-auth/sessions/$AUTH_ID")
   CODE=$(echo "$RES" | tail -1); BODY=$(echo "$RES" | head -1)
   case "$CODE $BODY" in
@@ -104,6 +106,7 @@ done
 - **approved** → 토큰을 저장하고 6-2로: `mkdir -p ~/.cova && printf '%s' "$TOKEN" > ~/.cova/credentials && chmod 600 ~/.cova/credentials`
 - **denied** → 재시도하지 않는다. "업로드를 취소했습니다"로 안내하고 7단계(로컬 결과만)로.
 - **404(만료)** → 새 세션으로 **1회만** 자동 재안내. 또 만료되면 사용자에게 계속할지 묻는다.
+- **시간 초과**(루프 종료까지 미승인·네트워크 오류 지속) → 만료와 동일하게 처리(새 세션 1회 재안내, 이후 사용자에게 확인).
 
 **6-2. 업로드.**
 
