@@ -1,7 +1,7 @@
 {
   "name": "@uxis-cova/make-design",
-  "version": "0.1.0",
-  "description": "COVA 디자인 패턴 API를 참고해 홈페이지 HTML 시안을 생성하는 Claude Code 스킬. npx @uxis-cova/make-design 한 번으로 ~/.claude/skills에 설치됩니다.",
+  "version": "0.2.0",
+  "description": "COVA 디자인 패턴 API를 참고해 홈페이지 HTML 시안을 생성하는 Claude Code 스킬. npx @uxis-cova/make-design 한 번으로 설치됩니다(전역/프로젝트 선택).",
   "publishConfig": {
     "access": "public"
   },
