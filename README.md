@@ -38,8 +38,9 @@ Playwright로 자체 점검하고 → (원하면) COVA에 업로드합니다.
 skills/cova-make-design/
   SKILL.md                    # 워크플로(인터뷰 → 태그 → 패턴 검색 → 생성 → 자체 테스트 → 업로드)
   references/
-    interview.md              # 요구사항 인터뷰 질문(필수 질문 포함)
+    interview.md              # 요구사항 인터뷰(카드 UI 라운드 구성)
     design-rules.md           # 레이아웃·타이포·이미지·카피 규칙
+    design-trends.md          # 2023~2026 국내·해외 웹디자인 트렌드 + 디자인 무브 카탈로그
     self-test.md              # Playwright 자체 테스트 체크리스트
 ```
 

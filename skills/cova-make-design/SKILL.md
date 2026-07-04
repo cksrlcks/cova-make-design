@@ -54,9 +54,12 @@ curl -s "$BASE/api/public/design-patterns?tags=제안,관광/레저&maxSections=
 
 ### 4. HTML 생성
 
-**[references/design-rules.md](references/design-rules.md)를 반드시 읽고** 그 규칙대로,
+**[references/design-rules.md](references/design-rules.md)와
+[references/design-trends.md](references/design-trends.md)를 반드시 읽고** 그 규칙대로,
 `patternSnippets`를 참고해 단일 완결형 HTML을 작성한 뒤 현재 폴더에 `./design-<slug>.html`로 저장한다.
-패턴은 **구성·레이아웃·리듬만 참고**하고 그대로 베끼지 않는다.
+패턴은 **구성·레이아웃·리듬만 참고**하고 그대로 베끼지 않는다. 트렌드 파일의 **디자인 무브를
+인터뷰의 '디자인 과감함' 답에 맞춰 채택**하고(절제 0~1 / 균형 2 / 과감 3+), 무엇을 왜 채택했는지
+analysis/approach에 반영한다.
 
 생성과 함께 **분석·도입 문장 2개**를 만들어 둔다(6단계 업로드 payload의 `analysis`/`approach`로 쓴다):
 
