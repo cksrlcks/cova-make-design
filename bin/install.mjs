@@ -12,7 +12,7 @@ const src = join(here, "..", "skills", "cova-make-design");
 
 const args = process.argv.slice(2);
 if (args.includes("--help") || args.includes("-h")) {
-  console.log(`사용법: npx cova-make-design [--project]
+  console.log(`사용법: npx @uxis-cova/make-design [--project]
 
   (기본)     ~/.claude/skills/cova-make-design 에 설치
   --project  ./.claude/skills/cova-make-design 에 설치(현재 프로젝트 전용)`);
