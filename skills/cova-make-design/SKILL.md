@@ -27,8 +27,9 @@ TOKEN="$(cat ~/.cova/credentials 2>/dev/null)"
 
 ### 1. 요구사항 인터뷰 (먼저, 반드시)
 
-HTML을 만들기 전에 **[references/interview.md](references/interview.md)를 반드시 읽고** 그 질문들로
-사용자에게 묻는다. 특히 다음 세 가지는 빠뜨리면 안 된다:
+HTML을 만들기 전에 **[references/interview.md](references/interview.md)를 반드시 읽고** 그 라운드
+구성대로 사용자에게 묻는다. **모든 질문은 AskUserQuestion 도구(카드 UI)로 묻는다** — 텍스트로
+질문을 나열하지 않는다. 특히 다음 세 가지는 빠뜨리면 안 된다:
 
 - **사이트 제목** (필수 — 업로드 시 title로 쓰인다)
 - **추가 요청사항이 있나요?** (마지막에, 자유 입력)
