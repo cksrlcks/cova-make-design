@@ -107,3 +107,27 @@
   목록의 옵션 표기는 허용).
 - 인터뷰 라운드 0(게이트) → 라운드 1~4 순서, 유형 미언급 시 질문/언급 시 스킵 분기가 문서상 일관적인지 통독.
 - payload 스키마(`pageType` 값)와 서버는 변경되지 않았음을 확인(문서 표기만 추가).
+
+## 추가 (2026-07-06) — 제품(`product`) 유형 신설 (크로스 레포)
+
+바이브코딩 제품/앱 시안을 위한 **제품 유형**을 추가한다. studio '유형'으로 올라가야 하므로 서버
+(`uxis-live-design`)의 `pageType` enum·검증·DB CHECK를 함께 확장했다(원 스펙의 "서버 무변경"은 이 추가로 갱신).
+
+**Part A — 서버 `uxis-live-design` (별도 레포, 브랜치 `add-product-page-type`)**
+- `src/entities/ai-design/model/constants.ts` — `PAGE_TYPES`·`PAGE_TYPE_LABELS`에 `product`("제품").
+- `src/entities/design-analysis/api/save-generated-design.server.ts` — 업로드 검증 타입·배열에 `product`.
+- `src/entities/ai-design/ui/page-type-cards.tsx` — `META.product`(와이어프레임) + 그리드 4열 대응.
+- `src/entities/ai-design/api/generate-html.server.ts` — 서버 생성 프롬프트 라벨(제품 = 실제 제품/앱 화면 참고).
+- `drizzle/schema.ts` + `drizzle/migrations/0032_ai_designs_product_page_type.sql`(+journal) — CHECK 제약을
+  `('main','dashboard','subpage','product')`로 확장. **라이브 DB에 적용 완료**(constraint 확인).
+- 검증: `tsc`(변경 소스 무에러), `vitest`(ai-design 20 통과), `eslint`(0).
+
+**Part B — `cova-make-design` 스킬**
+- 라운드 0 유형에 `제품(product)` 추가. `제품`이면 마케팅 라운드 2·3 대신 **라운드 P**(실제 제품/앱 화면 참고:
+  레퍼런스 제품·핵심 화면·UI 패턴·정보 밀도)로 진행하고 **풀스크린 마케팅 히어로를 만들지 않는다**.
+- `SKILL.md` 게이트 안내·payload 주석에 `product` 반영. `design-rules.md`에 제품 지침 + 히어로 강제 제외,
+  `design-trends.md`(양쪽) 무브 1 금지 문구에 제품 추가.
+
+**Part C — `cova-make-guide` 스킬**
+- 라운드 1 스코프에 `제품·앱` 추가하되 **user 산출물에 흡수**(별도 경로·템플릿 없이 `DESIGN.md`+user 셋 재사용).
+  참고만 실제 제품/앱 화면 쪽으로. `SKILL.md` 스코프 안내·description 반영.

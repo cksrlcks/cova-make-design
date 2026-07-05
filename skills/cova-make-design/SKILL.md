@@ -28,9 +28,10 @@ TOKEN="$(cat ~/.cova/credentials 2>/dev/null)"
 ### 1. 요구사항 인터뷰 (먼저, 반드시)
 
 HTML을 만들기 전에 **[references/interview.md](references/interview.md)를 반드시 읽고** 그 라운드
-구성대로 사용자에게 묻는다. **가장 먼저 페이지 유형(메인/서브/관리자)을 게이트로 확정한다** — 사용자가
+구성대로 사용자에게 묻는다. **가장 먼저 페이지 유형(메인/서브/관리자/제품)을 게이트로 확정한다** — 사용자가
 대화에서 이미 말했으면 건너뛰고, 안 했으면 반드시 묻는다. 이 값이 6단계 업로드의 `pageType`(= studio
-'유형')이 된다. **모든 질문은 AskUserQuestion 도구(카드 UI)로 묻는다** — 텍스트로 질문을 나열하지 않는다.
+'유형')이 된다. 유형이 **제품**(바이브코딩 제품·앱)이면 마케팅 랜딩이 아니라 **실제 제품/앱 화면**을
+참고해 만든다(인터뷰는 라운드 P, 규칙은 design-rules.md의 제품 지침). **모든 질문은 AskUserQuestion 도구(카드 UI)로 묻는다** — 텍스트로 질문을 나열하지 않는다.
 특히 다음은 빠뜨리면 안 된다:
 
 - **페이지 유형** (게이트 — 미언급 시 필수. studio '유형'으로 올라간다)
@@ -118,7 +119,7 @@ done
 **6-2. 업로드.**
 
 ```bash
-# payload.json: { "title","company","pageType"(main|dashboard|subpage = studio '유형'),"extraNotes",
+# payload.json: { "title","company","pageType"(main|dashboard|subpage|product = studio '유형'),"extraNotes",
 #                 "optionIds"[3단계],"html"(전체 HTML 문자열),"analysis"(4단계 분석),
 #                 "approach"(4단계 도입),"model":"claude-code" }
 curl -s -X POST "$BASE/api/public/design-patterns/designs" \

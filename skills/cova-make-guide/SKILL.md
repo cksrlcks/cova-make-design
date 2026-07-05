@@ -1,6 +1,6 @@
 ---
 name: cova-make-guide
-description: 요구사항 인터뷰 + COVA 디자인 패턴 API를 참고해 스타일가이드 HTML·컴포넌트가이드 HTML과 AI가 읽는 DESIGN.md(디자인 시스템 규격)를 현재 프로젝트에 생성한다. 사용자페이지용/관리자용을 고를 수 있다. "디자인 가이드 만들기", "스타일가이드 생성", "컴포넌트 가이드", "DESIGN.md 만들기" 요청 시 사용.
+description: 요구사항 인터뷰 + COVA 디자인 패턴 API를 참고해 스타일가이드 HTML·컴포넌트가이드 HTML과 AI가 읽는 DESIGN.md(디자인 시스템 규격)를 현재 프로젝트에 생성한다. 사용자페이지용/제품용/관리자용을 고를 수 있다. "디자인 가이드 만들기", "스타일가이드 생성", "컴포넌트 가이드", "DESIGN.md 만들기" 요청 시 사용.
 ---
 
 # COVA 디자인 가이드 생성 (스타일·컴포넌트 가이드 + DESIGN.md)
@@ -25,15 +25,17 @@ BASE="${COVA_API_URL:-https://uxis-cova.vercel.app}"
 
 ### 1. 스코프 선택 (먼저)
 
-AskUserQuestion으로 **사용자페이지용(user)** 인지 **관리자용(admin)** 인지 묻는다. 이 선택이 파일 경로와
-컴포넌트 범위를 정한다:
+AskUserQuestion으로 **사용자페이지용(user)** / **제품·앱용(product)** / **관리자용(admin)** 중 무엇인지 묻는다.
+이 선택이 파일 경로와 컴포넌트 범위를 정한다:
 
 | 스코프 | DESIGN 문서 | HTML 가이드 |
 |---|---|---|
 | user | `DESIGN.md` | `design/style-guide.html`, `design/component-guide.html` |
 | admin | `DESIGN.admin.md` | `design/admin/style-guide.html`, `design/admin/component-guide.html` |
 
-둘 다 필요하면 스코프를 바꿔 이 순서를 반복한다(기존 파일은 덮어쓰기 전에 확인).
+- **product(제품·앱)** 은 별도 산출물을 만들지 않고 **user 산출물을 그대로 쓴다**(`DESIGN.md` + user 컴포넌트 셋).
+  단 참고는 마케팅 사이트가 아니라 **실제 제품/앱 화면**(리스트·상세·폼·모달 등) 쪽으로 기울인다.
+- 둘 이상 필요하면 스코프를 바꿔 이 순서를 반복한다(기존 파일은 덮어쓰기 전에 확인).
 
 ### 2. 요구사항 인터뷰
 
