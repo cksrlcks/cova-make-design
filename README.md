@@ -1,7 +1,7 @@
 # cova-make-design
 
-COVA 실서비스의 디자인 패턴 API를 참고해 **홈페이지 HTML 시안 한 장**을 생성하는
-[Claude Code](https://claude.com/claude-code) 스킬입니다.
+COVA 디자인 패턴 API를 참고해 **HTML 시안 생성·시안 사전 분석·디자인 시스템 가이드 생성/적용**을
+돕는 [Claude Code](https://claude.com/claude-code) 스킬 모음입니다.
 
 ## 설치
 

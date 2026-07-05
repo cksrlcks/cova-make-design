@@ -80,7 +80,7 @@ summary: <브랜드·톤 1~2문장>
   색 스와치·타이포 견본·간격/라운드/섀도우 스케일을 채운다.
 - `component-guide.user.html` 또는 `component-guide.admin.html` — 스코프에 맞는 골격을 골라 같은 `:root`
   블록을 넣고, 컴포넌트 슬롯을 인벤토리대로 채운다(인터뷰에서 뺀 컴포넌트는 제거).
-- 스코프별 저장 경로는 Global Constraints의 파일 규칙을 따른다.
+- 스코프별 저장 경로는 SKILL.md 1단계 스코프 표의 파일 규칙(user → `design/`, admin → `design/admin/`)을 따른다.
 
 ## 6. 자체 점검 (생성 직후, 반드시)
 
