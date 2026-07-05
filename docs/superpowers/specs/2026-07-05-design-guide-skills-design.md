@@ -58,6 +58,9 @@
      범위는 스코프별 — 사용자: 버튼/링크/카드/폼·인풋/뱃지/히어로/내비/푸터/CTA·섹션,
      관리자: 버튼/인풋/테이블/폼/모달/탭/사이드바 내비/스탯/알럿/페이지네이션/카드.
    - 두 HTML은 단일 완결형(인라인 CSS). 뷰어 CSP 고려해 스크립트 의존 없이 렌더된다.
+   - **템플릿 HTML 동봉**: 스킬은 매번 백지에서 만들지 않고, `references/templates/`에 번들된
+     **검증된 골격 HTML**을 읽어 확정한 토큰(`:root` 변수 블록)과 컴포넌트 마크업을 채워 출력한다.
+     골격은 스타일가이드 1종(토큰 쇼케이스, 스코프 공용)과 컴포넌트가이드 2종(user/admin 컴포넌트 셋)이다.
 6. **자체 점검** — 생성한 HTML을 열어 렌더링·정렬·색 대비를 확인한다(make-design의 self-test 패턴 재사용).
    문제가 있으면 고치고 다시 확인.
 7. **결과 안내** — 생성한 파일 경로들과 다음 단계(`cova-apply-guide`로 적용)를 안내.
@@ -65,8 +68,12 @@
 ### 참고 파일 (references/)
 
 - `interview.md` — 디자인 시스템용 인터뷰(카드 UI 라운드 구성).
-- `guide-rules.md` — 토큰 체계·컴포넌트 인벤토리·가이드 HTML 작성 규칙.
+- `guide-rules.md` — 토큰 체계·컴포넌트 인벤토리·DESIGN.md 계약 형식·가이드 HTML 작성 규칙·자체 점검 체크리스트.
 - `design-trends.md` — (make-design에서 발췌한) 디자인 무브 카탈로그 자체 사본.
+- `templates/style-guide.html` — 토큰 쇼케이스 골격(스코프 공용).
+- `templates/component-guide.user.html` — 사용자 컴포넌트 셋 골격.
+- `templates/component-guide.admin.html` — 관리자 컴포넌트 셋 골격.
+- 골격은 채움 지점을 명확한 마커(`:root` 변수 블록, `<!-- {{...}} -->` 주석 슬롯)로 표시한다.
 
 ## 스킬 2 — `cova-apply-guide`
 
