@@ -1,21 +1,58 @@
 #!/usr/bin/env node
-// cova-make-design 스킬 설치기.
+// cova-make-design 스킬 패키지 설치기(스킬 여러 개를 ~/.claude/skills 또는 프로젝트에 설치).
 // 플래그 없이 터미널(TTY)에서 실행하면 설치 위치를 방향키로 고른다. --global/--project는 질문 생략(CI용).
-import { cpSync, existsSync, mkdirSync, rmSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, rmSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const src = join(here, "..", "skills", "cova-make-design");
+const skillsRoot = join(here, "..", "skills");
+
+// 설치된 스킬별 발동 문구 안내(맵에 없으면 이름만 표시).
+const SKILL_HINTS = {
+  "cova-make-design": "AI 시안 만들기",
+  "cova-analyze-designs": "시안 분석 / 미분석 전체 분석",
+};
+
+// TTY일 때만 ANSI 색을 입힌다(비TTY/CI는 평문 → 로그 오염 없음).
+const useColor = process.stdout.isTTY;
+const color = (code, str) => (useColor ? `\x1b[${code}m${str}\x1b[0m` : str);
+
+function printBanner() {
+  const lines = [
+    "  ██████  ██████  ██    ██  █████ ",
+    " ██      ██    ██ ██    ██ ██   ██",
+    " ██      ██    ██ ██    ██ ███████",
+    " ██      ██    ██  ██  ██  ██   ██",
+    "  ██████  ██████    ████   ██   ██",
+  ];
+  console.log();
+  for (const l of lines) console.log(color("36", l)); // cyan
+  console.log(color("2", "        make-design · claude skills")); // dim
+  console.log();
+}
+
+// 한글은 터미널에서 2칸 폭이라 오른쪽 테두리를 두지 않고 왼쪽 거터만 그린다(정렬 깨짐 방지).
+function printCompletion(destRoot, names) {
+  const dim = (s) => color("2", s);
+  console.log(dim(" ╭─ 설치 완료 ──────────────────"));
+  for (const name of names) {
+    console.log(`${dim(" │")}  ${color("32", "✔")} ${name}`); // green ✔
+    const hint = SKILL_HINTS[name];
+    if (hint) console.log(`${dim(" │")}      "${hint}"`);
+  }
+  console.log(dim(" ╰──────────────────────────────"));
+  console.log(dim(`   → ${destRoot}`));
+}
 
 const args = process.argv.slice(2);
 if (args.includes("--help") || args.includes("-h")) {
   console.log(`사용법: npx @uxis-cova/make-design [--global|--project]
 
   (플래그 없음)  터미널에서 설치 위치를 물어봅니다
-  --global      ~/.claude/skills/cova-make-design 에 설치
-  --project     ./.claude/skills/cova-make-design 에 설치(현재 프로젝트 전용)`);
+  --global      ~/.claude/skills 에 스킬을 설치(전역, 모든 프로젝트에서 사용)
+  --project     ./.claude/skills 에 스킬을 설치(현재 프로젝트 전용)`);
   process.exit(0);
 }
 
@@ -87,16 +124,26 @@ async function resolveTarget() {
   return selectTarget();
 }
 
+printBanner();
+
 const target = await resolveTarget();
 const destRoot =
   target === "project"
     ? resolve(process.cwd(), ".claude", "skills")
     : join(homedir(), ".claude", "skills");
-const dest = join(destRoot, "cova-make-design");
 
 mkdirSync(destRoot, { recursive: true });
-if (existsSync(dest)) rmSync(dest, { recursive: true }); // 재설치 시 이전 파일 잔재 제거
-cpSync(src, dest, { recursive: true });
 
-console.log(`✔ cova-make-design 스킬 설치 완료 → ${dest}`);
-console.log(`\nClaude Code에서 "AI 시안 만들기"라고 요청하면 스킬이 동작합니다.`);
+// skills/ 하위 디렉터리 = 각 스킬. 이름순으로 각 대상에 재설치(잔재 제거 후 복사).
+const skillNames = readdirSync(skillsRoot, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort();
+
+for (const name of skillNames) {
+  const dest = join(destRoot, name);
+  if (existsSync(dest)) rmSync(dest, { recursive: true }); // 재설치 시 이전 파일 잔재 제거
+  cpSync(join(skillsRoot, name), dest, { recursive: true });
+}
+
+printCompletion(destRoot, skillNames);
