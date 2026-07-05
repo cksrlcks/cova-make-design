@@ -1,0 +1,46 @@
+{
+  "name": "COVA 아침 분석 알림",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "30 8 * * *" }
+          ]
+        }
+      },
+      "id": "schedule-0830",
+      "name": "매일 08:30",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [280, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "여기에_Discord_웹훅_URL_붙여넣기",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": \"☀️ 아침 시안 분석 시간입니다.\\n지금 있는 PC(집/회사) 터미널에 아래를 붙여넣어 실행하세요:\\n\\n```\\nclaude -p \\\"cova-analyze-designs 스킬로 미분석 시안 전체를 분석해줘\\\" --permission-mode bypassPermissions\\n```\"\n}",
+        "options": {}
+      },
+      "id": "discord-notify",
+      "name": "Discord 알림",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 300]
+    }
+  ],
+  "connections": {
+    "매일 08:30": {
+      "main": [
+        [ { "node": "Discord 알림", "type": "main", "index": 0 } ]
+      ]
+    }
+  },
+  "settings": {
+    "timezone": "Asia/Seoul",
+    "executionOrder": "v1"
+  },
+  "active": false
+}
