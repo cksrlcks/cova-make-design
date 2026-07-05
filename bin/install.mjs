@@ -13,6 +13,8 @@ const skillsRoot = join(here, "..", "skills");
 const SKILL_HINTS = {
   "cova-make-design": "AI 시안 만들기",
   "cova-analyze-designs": "시안 분석 / 미분석 전체 분석",
+  "cova-make-guide": "디자인 가이드 만들기 / 스타일가이드 생성",
+  "cova-apply-guide": "디자인 가이드 적용 / 스타일 입히기",
 };
 
 // TTY일 때만 ANSI 색을 입힌다(비TTY/CI는 평문 → 로그 오염 없음).

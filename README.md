@@ -26,6 +26,8 @@ Claude Code에서 이렇게 요청하면 스킬이 동작합니다:
 스킬이 요구사항을 인터뷰하고 → COVA의 분석 패턴을 검색해 → HTML 시안을 생성한 뒤 →
 Playwright로 자체 점검하고 → (원하면) COVA에 업로드합니다.
 
+> 디자인 가이드 만들기 → (적용) 디자인 가이드 적용
+
 ## 설정
 
 | 환경변수 | 필수 | 설명 |
@@ -35,13 +37,11 @@ Playwright로 자체 점검하고 → (원하면) COVA에 업로드합니다.
 ## 구성
 
 ```
-skills/cova-make-design/
-  SKILL.md                    # 워크플로(인터뷰 → 태그 → 패턴 검색 → 생성 → 자체 테스트 → 업로드)
-  references/
-    interview.md              # 요구사항 인터뷰(카드 UI 라운드 구성)
-    design-rules.md           # 레이아웃·타이포·이미지·카피 규칙
-    design-trends.md          # 2023~2026 국내·해외 웹디자인 트렌드 + 디자인 무브 카탈로그
-    self-test.md              # Playwright 자체 테스트 체크리스트
+skills/
+  cova-make-design/     # 홈페이지 HTML 시안 한 장 생성
+  cova-analyze-designs/ # 시안 사전 분석(로컬 vision) 저장
+  cova-make-guide/      # 스타일·컴포넌트 가이드 HTML + DESIGN.md 생성
+  cova-apply-guide/     # DESIGN.md를 프로젝트 UI에 적용(기반+샘플1, 나머지 가이드)
 ```
 
 ## License
