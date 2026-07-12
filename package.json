@@ -1,6 +1,6 @@
 {
   "name": "@uxis-cova/make-design",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "COVA 디자인 패턴 API를 참고해 홈페이지 HTML 시안을 만들고, 시안을 사전 분석하고, 디자인 시스템 가이드(스타일·컴포넌트 가이드 + DESIGN.md)를 생성·적용하는 Claude Code 스킬 모음. npx @uxis-cova/make-design 한 번으로 네 스킬을 설치합니다(전역/프로젝트 선택).",
   "publishConfig": {
     "access": "public"
