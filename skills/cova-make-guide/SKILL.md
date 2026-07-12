@@ -34,7 +34,8 @@ AskUserQuestion으로 **사용자페이지용(user)** / **제품·앱용(product
 | admin | `DESIGN.admin.md` | `design/admin/style-guide.html`, `design/admin/component-guide.html` |
 
 - **product(제품·앱)** 은 별도 산출물을 만들지 않고 **user 산출물을 그대로 쓴다**(`DESIGN.md` + user 컴포넌트 셋).
-  단 참고는 마케팅 사이트가 아니라 **실제 제품/앱 화면**(리스트·상세·폼·모달 등) 쪽으로 기울인다.
+  단 참고는 마케팅 사이트가 아니라 **실제 제품/앱 화면**(리스트·상세·폼·모달 등) 쪽으로 기울이고,
+  도구형(Linear·어드민류)이면 토큰·밀도 규격은 `references/saas-admin.md`를 따른다.
 - 둘 이상 필요하면 스코프를 바꿔 이 순서를 반복한다(기존 파일은 덮어쓰기 전에 확인).
 
 ### 2. 요구사항 인터뷰
@@ -58,8 +59,9 @@ curl -s "$BASE/api/public/design-patterns?tags=<태그,콤마구분>&maxSections
 
 **[references/guide-rules.md](references/guide-rules.md)를 반드시 읽고** 토큰 체계(§1)와 컴포넌트 인벤토리(§2)를
 확정한다. 토큰은 **순수 값 + canonical CSS 변수명**으로만 표현한다(스택 형식 금지 — 번역은 apply-guide 담당).
-스코프가 admin이면 컴포넌트 인벤토리를 관리자 셋으로. 과감함 답에 맞춰 [references/design-trends.md](references/design-trends.md)의
-무브를 절제 0~1 / 균형 2 / 과감 3+로 채택한다.
+토큰 값은 방향에서 도출한다: **user·소비자형 제품은 [references/design-trends.md](references/design-trends.md)의
+방향 카탈로그에서 1개에 커밋**(과감함 답 = 방향의 볼륨), **admin·도구형 제품은
+[references/saas-admin.md](references/saas-admin.md)의 무드 A/B/C**를 따르고 컴포넌트 인벤토리를 관리자 셋으로 한다.
 
 ### 5. 산출물 생성 (템플릿 채우기)
 

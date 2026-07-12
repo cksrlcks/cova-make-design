@@ -30,8 +30,9 @@ TOKEN="$(cat ~/.cova/credentials 2>/dev/null)"
 HTML을 만들기 전에 **[references/interview.md](references/interview.md)를 반드시 읽고** 그 라운드
 구성대로 사용자에게 묻는다. **가장 먼저 페이지 유형(메인/서브/관리자/제품)을 게이트로 확정한다** — 사용자가
 대화에서 이미 말했으면 건너뛰고, 안 했으면 반드시 묻는다. 이 값이 6단계 업로드의 `pageType`(= studio
-'유형')이 된다. 유형이 **제품**(바이브코딩 제품·앱)이면 마케팅 랜딩이 아니라 **실제 제품/앱 화면**을
-참고해 만든다(인터뷰는 라운드 P, 규칙은 design-rules.md의 제품 지침). **모든 질문은 AskUserQuestion 도구(카드 UI)로 묻는다** — 텍스트로 질문을 나열하지 않는다.
+'유형')이 된다. 유형이 **관리자**면 라운드 A(무드·대표 화면·도메인·밀도)로 진행하고 규칙은
+saas-admin.md를 따른다. 유형이 **제품**(바이브코딩 제품·앱)이면 마케팅 랜딩이 아니라 **실제 제품/앱
+화면**을 참고해 만든다(인터뷰는 라운드 P — 도구형이면 역시 saas-admin.md). **모든 질문은 AskUserQuestion 도구(카드 UI)로 묻는다** — 텍스트로 질문을 나열하지 않는다.
 특히 다음은 빠뜨리면 안 된다:
 
 - **페이지 유형** (게이트 — 미언급 시 필수. studio '유형'으로 올라간다)
@@ -58,12 +59,14 @@ curl -s "$BASE/api/public/design-patterns?tags=제안,관광/레저&maxSections=
 
 ### 4. HTML 생성
 
-**[references/design-rules.md](references/design-rules.md)와
-[references/design-trends.md](references/design-trends.md)를 반드시 읽고** 그 규칙대로,
+**[references/design-rules.md](references/design-rules.md)를 반드시 읽고**, 유형에 따라
+**메인·서브는 [references/design-trends.md](references/design-trends.md)**, **관리자·도구형 제품은
+[references/saas-admin.md](references/saas-admin.md)**를 반드시 함께 읽는다. 그 규칙대로
 `patternSnippets`를 참고해 단일 완결형 HTML을 작성한 뒤 현재 폴더에 `./design-<slug>.html`로 저장한다.
-패턴은 **구성·레이아웃·리듬만 참고**하고 그대로 베끼지 않는다. 트렌드 파일의 **디자인 무브를
-인터뷰의 '디자인 과감함' 답에 맞춰 채택**하고(절제 0~1 / 균형 2 / 과감 3+), 무엇을 왜 채택했는지
-analysis/approach에 반영한다.
+패턴은 **구성·레이아웃·리듬만 참고**하고 그대로 베끼지 않는다. 메인·서브는 트렌드 파일의 **생성
+게이트대로 디자인 방향 1개에 커밋하고 시그니처 요소 1개를 선언**하며, '디자인 과감함' 답은 방향의
+볼륨(절제=조용한 시그니처 / 균형=시그니처+무브 3~4 / 과감=최대 볼륨)으로 해석한다. 무엇을 왜
+채택했는지 analysis/approach에 반영한다.
 
 생성과 함께 **분석·도입 문장 2개**를 만들어 둔다(6단계 업로드 payload의 `analysis`/`approach`로 쓴다):
 

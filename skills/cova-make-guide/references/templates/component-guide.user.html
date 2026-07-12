@@ -4,9 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>컴포넌트 가이드 (사용자)</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
 <style>
-  /* {{TOKENS}} — style-guide.html과 동일한 :root 토큰 블록을 주입 */
+  /* {{TOKENS}} — style-guide.html과 동일한 :root 토큰 블록을 주입.
+     아래 기본값은 부분집합 플레이스홀더 — 반드시 canonical 전체 세트로 통째로 교체한다.
+     기본 hex(#2563EB 등)가 산출물에 남으면 실패(guide-rules.md §6). */
   :root{ --color-primary:#2563EB; --color-primary-strong:#1D4ED8; --color-text:#0F172A;
     --color-muted:#64748B; --color-border:#E2E8F0; --color-bg-soft:#F8FAFC; --color-surface:#FFFFFF;
     --font-sans:"Pretendard",system-ui,sans-serif; --radius-md:8px; --radius-full:999px;

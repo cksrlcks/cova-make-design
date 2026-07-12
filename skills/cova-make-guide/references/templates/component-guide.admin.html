@@ -4,41 +4,219 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>컴포넌트 가이드 (관리자)</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
 <style>
-  /* {{TOKENS}} — style-guide.html과 동일한 :root 토큰 블록을 주입 */
-  :root{ --color-primary:#2563EB; --color-text:#0F172A; --color-muted:#64748B; --color-border:#E2E8F0;
-    --color-bg-soft:#F8FAFC; --color-surface:#FFFFFF; --color-success:#16A34A; --color-warning:#D97706;
-    --color-danger:#DC2626; --font-sans:"Pretendard",system-ui,sans-serif; --radius-md:8px;
-    --space-sm:8px; --space-md:12px; --space-lg:16px; }
-  body{margin:0;font-family:var(--font-sans);color:var(--color-text);background:var(--color-bg-soft);}
-  .inner{max-width:1080px;margin:0 auto;padding:40px 24px;}
-  h2{margin:40px 0 12px;} .demo{padding:20px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);}
-  table{width:100%;border-collapse:collapse;font-size:14px;} th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border);}
-  th{color:var(--color-muted);font-weight:600;}
-  .alert{padding:10px 14px;border-radius:var(--radius-md);border:1px solid;} .alert--info{border-color:var(--color-primary);}
-  .alert--warn{border-color:var(--color-warning);} .alert--danger{border-color:var(--color-danger);}
-  .stat{display:inline-block;padding:16px;border:1px solid var(--color-border);border-radius:var(--radius-md);min-width:140px;}
-  .stat b{font-size:28px;display:block;}
+  /* {{TOKENS}} — style-guide.html과 동일한 :root 토큰 블록을 주입 (admin 권장값: 본문 13~14px, radius 6, 섀도우 억제).
+     아래 기본값은 플레이스홀더 — 반드시 canonical 전체 세트로 통째로 교체한다(#5661d6 등이 남으면 실패). */
+  :root{ --color-primary:#5661d6; --color-primary-strong:#3f49bd; --color-secondary:#6b7076;
+    --color-text:#171717; --color-muted:#6b7076;
+    --color-border:#e5e7ea; --color-bg:#ffffff; --color-bg-soft:#f7f8f9; --color-surface:#ffffff;
+    --color-success:#178745; --color-warning:#b97d10; --color-danger:#cf3d3d; --color-info:#2673c8;
+    --font-sans:"Pretendard",-apple-system,system-ui,sans-serif; --font-display:var(--font-sans);
+    --text-xs:11px; --text-sm:12px; --text-base:13px; --text-lg:14px; --text-xl:16px; --text-2xl:20px;
+    --text-3xl:24px; --text-4xl:32px;
+    --leading-tight:1.3; --leading-normal:1.5; --leading-relaxed:1.6;
+    --weight-regular:400; --weight-medium:500; --weight-semibold:600; --weight-bold:700;
+    --space-xs:4px; --space-sm:8px; --space-md:12px; --space-lg:16px; --space-xl:24px; --space-2xl:32px;
+    --radius-sm:4px; --radius-md:6px; --radius-lg:10px; --radius-full:999px;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.04); --shadow-md:0 4px 8px -2px rgba(0,0,0,.06);
+    --shadow-lg:0 8px 16px -4px rgba(0,0,0,.08); }
+  body{margin:0;font-family:var(--font-sans);color:var(--color-text);background:var(--color-bg-soft);
+    font-size:var(--text-base);line-height:1.5;}
+  .inner{max-width:1120px;margin:0 auto;padding:40px 24px;}
+  h1{font-size:var(--text-2xl);margin:0 0 4px;} .page-desc{color:var(--color-muted);margin:0 0 8px;}
+  h2{font-size:var(--text-xl);margin:40px 0 12px;}
+  .demo{padding:20px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);}
+  .rule{font-size:var(--text-sm);color:var(--color-muted);margin:6px 0 0;}
+  .num{font-variant-numeric:tabular-nums;text-align:right;}
+  .mono{font-family:ui-monospace,"JetBrains Mono",monospace;font-size:var(--text-sm);}
+
+  /* 앱 셸 미리보기 — 사이드바 기본 256px(saas-admin.md 규격 240~280px) */
+  .shell{display:grid;grid-template-columns:256px 1fr;height:360px;border:1px solid var(--color-border);
+    border-radius:var(--radius-lg);overflow:hidden;background:var(--color-bg);}
+  .shell aside{background:var(--color-bg-soft);border-right:1px solid var(--color-border);padding:12px 8px;font-size:var(--text-lg);}
+  .shell .ws{display:flex;align-items:center;gap:8px;padding:8px 12px;font-weight:600;min-height:48px;box-sizing:border-box;}
+  .shell .ws .logo{width:20px;height:20px;border-radius:5px;background:var(--color-primary);}
+  .shell .group{font-size:var(--text-xs);color:var(--color-muted);padding:20px 12px 6px;}
+  .shell nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:var(--radius-md);
+    color:var(--color-text);text-decoration:none;}
+  /* hover·active는 토큰 파생으로 — 다크 토큰 주입 시에도 성립 */
+  .shell nav a:hover{background:color-mix(in srgb, var(--color-text) 5%, transparent);}
+  .shell nav a.active{background:color-mix(in srgb, var(--color-primary) 9%, transparent);color:var(--color-primary-strong);font-weight:600;}
+  .shell main{display:flex;flex-direction:column;}
+  .shell .topbar{display:flex;align-items:center;gap:12px;height:52px;padding:0 16px;border-bottom:1px solid var(--color-border);}
+  .shell .crumb{color:var(--color-muted);} .shell .crumb b{color:var(--color-text);font-weight:600;}
+  .shell .search{margin-left:auto;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 10px;
+    border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-muted);font-size:var(--text-sm);}
+  .shell kbd{font-family:ui-monospace,monospace;font-size:10px;border:1px solid var(--color-border);border-radius:4px;padding:1px 4px;background:var(--color-bg-soft);}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;line-height:1;gap:6px;height:34px;
+    padding:0 14px;border-radius:var(--radius-md);border:1px solid transparent;font-weight:500;font-size:var(--text-lg);cursor:pointer;}
+  .btn--primary{background:var(--color-primary);color:#fff;} .btn--primary:hover{background:var(--color-primary-strong);}
+  .btn--secondary{background:var(--color-surface);color:var(--color-text);border-color:var(--color-border);}
+  .btn--ghost{background:transparent;color:var(--color-muted);}
+  .btn:focus-visible{outline:none;box-shadow:0 0 0 2px var(--color-bg),0 0 0 4px var(--color-primary);}
+  .btn[disabled]{opacity:.5;cursor:not-allowed;}
+
+  table{width:100%;border-collapse:collapse;font-size:var(--text-base);}
+  thead th{position:sticky;top:0;background:var(--color-surface);color:var(--color-muted);font-weight:600;
+    font-size:var(--text-sm);text-align:left;padding:10px 12px;border-bottom:1px solid var(--color-border);}
+  tbody td{padding:0 12px;height:44px;border-bottom:1px solid var(--color-border);}
+  tbody tr:hover{background:color-mix(in srgb, var(--color-text) 3%, transparent);}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px;}
+  .badge{display:inline-flex;align-items:center;justify-content:center;line-height:1;gap:4px;padding:4px 8px;
+    border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:500;}
+  .badge--ok{background:#e7f5ec;color:#116334;} .badge--warn{background:#fdf3e1;color:#8a5c07;}
+  .badge--danger{background:#fdeaea;color:#a12c2c;}
+
+  .stat{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);
+    padding:16px;min-width:180px;}
+  .stat .label{font-size:var(--text-sm);color:var(--color-muted);}
+  .stat b{display:block;font-size:26px;font-weight:600;margin:4px 0 2px;}
+  /* 델타 색 = 방향×좋음(이탈률 '감소'는 good) — 방향≠색이므로 up/down이 아니라 good/bad */
+  .stat .delta{font-size:var(--text-sm);} .stat .delta--good{color:var(--color-success);} .stat .delta--bad{color:var(--color-danger);}
+
+  .field{display:flex;flex-direction:column;gap:6px;max-width:320px;}
+  .field label{font-size:var(--text-sm);font-weight:500;}
+  .field input{height:34px;padding:0 10px;border:1px solid var(--color-border);border-radius:var(--radius-md);font:inherit;}
+  .field input:focus{outline:none;box-shadow:0 0 0 2px var(--color-bg),0 0 0 4px var(--color-primary);border-color:var(--color-primary);}
+  .field .help{font-size:var(--text-sm);color:var(--color-muted);} .field .error{font-size:var(--text-sm);color:var(--color-danger);}
+
+  .alert{display:flex;gap:8px;padding:10px 12px;border-radius:var(--radius-md);border:1px solid;font-size:var(--text-base);}
+  .alert--info{border-color:#bcd8f5;background:#eff6fd;} .alert--warn{border-color:#f2ddb0;background:#fdf7ea;}
+  .alert--danger{border-color:#f2c4c4;background:#fdf0f0;}
+
+  .empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px;text-align:center;color:var(--color-muted);}
+  .skeleton{display:flex;flex-direction:column;gap:8px;}
+  .skeleton i{height:12px;border-radius:4px;background:linear-gradient(90deg,#eee 25%,#f6f6f6 50%,#eee 75%);
+    background-size:200% 100%;animation:shim 1.4s infinite;}
+  @keyframes shim{to{background-position:-200% 0;}}
+
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--color-border);}
+  .tabs a{padding:8px 12px;color:var(--color-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;}
+  .tabs a.active{color:var(--color-text);font-weight:600;border-bottom-color:var(--color-primary);}
+  .toolbar{display:flex;align-items:center;gap:8px;}
+  .toolbar input{height:32px;padding:0 10px;border:1px solid var(--color-border);border-radius:var(--radius-md);font:inherit;flex:0 0 220px;}
+  .chip{display:inline-flex;align-items:center;justify-content:center;line-height:1;gap:6px;height:28px;padding:0 10px;
+    border:1px solid var(--color-border);border-radius:var(--radius-full);font-size:var(--text-sm);background:var(--color-surface);}
+  .chip .x{color:var(--color-muted);cursor:pointer;}
+  .pager{display:flex;align-items:center;gap:4px;font-size:var(--text-base);}
+  .pager .info{color:var(--color-muted);margin-right:auto;}
+  .pager a{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:var(--radius-sm);
+    color:var(--color-text);text-decoration:none;}
+  .pager a.cur{background:color-mix(in srgb, var(--color-primary) 10%, transparent);color:var(--color-primary-strong);font-weight:600;}
+  .avatar{display:inline-flex;align-items:center;justify-content:center;line-height:1;width:28px;height:28px;border-radius:50%;
+    font-size:11px;font-weight:600;background:#e8ebee;color:#3d4650;}
+  .toast{display:inline-flex;align-items:center;gap:10px;background:#1c1d1f;color:#f2f3f4;padding:10px 14px;
+    border-radius:var(--radius-lg);font-size:var(--text-base);box-shadow:var(--shadow-lg);}
+  .modal-demo{width:420px;max-width:100%;background:var(--color-surface);border:1px solid var(--color-border);
+    border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden;}
+  .modal-demo header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--color-border);font-weight:600;}
+  .modal-demo .body{padding:16px;color:var(--color-muted);}
+  .modal-demo footer{display:flex;justify-content:flex-end;gap:8px;padding:12px 16px;border-top:1px solid var(--color-border);}
 </style>
 </head>
 <body>
   <div class="inner">
     <h1>컴포넌트 가이드 (관리자)</h1>
-    <!-- {{COMPONENTS}} — 인벤토리대로 채우거나 제거 -->
+    <p class="page-desc"><!-- {{SUMMARY}} 무드(A/B/C)·톤 한 줄 --></p>
+    <!-- {{COMPONENTS}} — 인벤토리대로 채우거나 제거. 목데이터는 saas-admin.md 규칙(현실적 이름·우수리 금액·최근 밀집 날짜·현실 상태 분포)으로 교체 -->
 
-    <h2>데이터 테이블</h2>
-    <div class="demo"><table><thead><tr><th>이름</th><th>상태</th><th>등록일</th></tr></thead>
-      <tbody><tr><td>홍길동</td><td>활성</td><td>2026-07-05</td></tr></tbody></table></div>
+    <h2>앱 셸 (사이드바 + 상단바)</h2>
+    <div class="shell">
+      <aside>
+        <div class="ws"><span class="logo"></span> <!-- 서비스명 --></div>
+        <div class="group">관리</div>
+        <nav>
+          <a class="active" href="#">대시보드</a>
+          <a href="#">주문</a>
+          <a href="#">회원</a>
+        </nav>
+        <!-- 그룹·메뉴는 실제 도메인 구조(6~9개)로 -->
+      </aside>
+      <main>
+        <div class="topbar">
+          <span class="crumb">관리 / <b>대시보드</b></span>
+          <span class="search">검색 <kbd>⌘K</kbd></span>
+        </div>
+      </main>
+    </div>
+    <p class="rule">Do: 사이드바 배경은 본문과 명도 1단 분리, 활성 항목은 액센트 8~10% 배경. Don't: 이모지 아이콘, 액센트색 배경 남발.</p>
+
+    <h2>버튼</h2>
+    <div class="demo" style="display:flex;gap:10px;align-items:center">
+      <button class="btn btn--primary">저장</button>
+      <button class="btn btn--secondary">내보내기</button>
+      <button class="btn btn--ghost">취소</button>
+      <button class="btn btn--primary" disabled>저장</button>
+    </div>
 
     <h2>스탯 카드</h2>
-    <div class="demo"><span class="stat"><b>1,240</b>가입자</span></div>
+    <div class="demo" style="display:flex;gap:12px;flex-wrap:wrap">
+      <!-- 견본 값은 참고용 — 실제 가이드에서는 도메인에 맞는 값으로 새로 생성(saas-admin.md 목데이터 규칙) -->
+      <div class="stat"><span class="label">이번 주 결제액</span><b>₩8,214,300</b><span class="delta delta--good">지난주 대비 +3.8%</span></div>
+      <div class="stat"><span class="label">신규 가입</span><b>247</b><span class="delta delta--bad">지난주 대비 -1.4%</span></div>
+    </div>
+    <p class="rule">계약: 라벨(보조색) / 값(비례 숫자) / 델타(비교 기간 명시, 색=방향×좋음 — 이탈률 감소는 good). "큰 숫자+그라데이션 라인" 클리셰 금지.</p>
+
+    <h2>필터 툴바</h2>
+    <div class="demo"><div class="toolbar">
+      <input placeholder="주문번호·고객명 검색">
+      <span class="chip">상태: 결제 완료 <span class="x">✕</span></span>
+      <span class="chip">최근 30일 <span class="x">✕</span></span>
+      <button class="btn btn--primary" style="margin-left:auto">주문 생성</button>
+    </div></div>
+
+    <h2>데이터 테이블</h2>
+    <div class="demo" style="padding:0;overflow:hidden">
+      <!-- 견본 행 — 실제 가이드/시안에서는 12~20행, 이름·금액·날짜를 매번 새로 생성 -->
+      <table>
+        <thead><tr><th>주문번호</th><th>고객</th><th>상태</th><th style="text-align:right">금액</th><th>일시</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ORD-2026-1187</td><td><span class="avatar">박지</span> 박지현</td><td><span class="badge badge--ok"><span class="dot" style="background:var(--color-success)"></span>결제 완료</span></td><td class="num">₩64,000</td><td>38분 전</td></tr>
+          <tr><td class="mono">ORD-2026-1186</td><td><span class="avatar" style="background:#eee3f4;color:#5b3d70">최도</span> 최도윤</td><td><span class="badge badge--warn"><span class="dot" style="background:var(--color-warning)"></span>배송 대기</span></td><td class="num">₩386,500</td><td>어제</td></tr>
+        </tbody>
+      </table>
+      <div style="padding:10px 12px;border-top:1px solid var(--color-border)"><div class="pager">
+        <span class="info">총 1,203건 중 1–20</span>
+        <a href="#">‹</a><a class="cur" href="#">1</a><a href="#">2</a><a href="#">3</a><span style="color:var(--color-muted)">…</span><a href="#">61</a><a href="#">›</a>
+      </div></div>
+    </div>
+    <p class="rule">Do: 숫자 우측 정렬 + tabular-nums, ID는 모노, 상태는 dot+라벨, 헤더 sticky. Don't: 행 52px+, 색만으로 상태 전달.</p>
+
+    <h2>탭</h2>
+    <div class="demo"><nav class="tabs">
+      <a class="active" href="#">개요</a><a href="#">주문 내역</a><a href="#">설정</a>
+    </nav></div>
+
+    <h2>폼 필드</h2>
+    <div class="demo"><div class="field">
+      <label>담당자 이메일</label>
+      <input placeholder="name@company.co">
+      <span class="help">알림을 받을 주소입니다.</span>
+    </div></div>
 
     <h2>알럿</h2>
     <div class="demo" style="display:flex;flex-direction:column;gap:8px">
-      <div class="alert alert--info">정보 메시지</div>
-      <div class="alert alert--warn">경고 메시지</div>
-      <div class="alert alert--danger">위험 메시지</div>
+      <div class="alert alert--info">새 버전이 배포되었습니다.</div>
+      <div class="alert alert--warn">저장 공간이 90%에 도달했습니다.</div>
+      <div class="alert alert--danger">결제 수단 인증에 실패했습니다. 카드 정보를 확인해 주세요.</div>
+    </div>
+
+    <h2>엠티 스테이트 / 스켈레톤</h2>
+    <div class="demo" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="empty"><strong style="color:var(--color-text)">아직 등록된 상품이 없습니다</strong><span>첫 상품을 등록하고 판매를 시작하세요.</span><button class="btn btn--primary">상품 등록</button></div>
+      <div class="skeleton"><i style="width:40%"></i><i></i><i></i><i style="width:70%"></i></div>
+    </div>
+
+    <h2>모달 / 토스트</h2>
+    <div class="demo" style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+      <div class="modal-demo">
+        <header>회원 삭제 <span style="color:var(--color-muted);font-weight:400;cursor:pointer">✕</span></header>
+        <div class="body">삭제한 회원 정보는 복구할 수 없습니다. 계속할까요?</div>
+        <footer><button class="btn btn--secondary">취소</button><button class="btn btn--primary" style="background:var(--color-danger)">삭제</button></footer>
+      </div>
+      <span class="toast">변경 사항을 저장했습니다</span>
     </div>
   </div>
 </body>
