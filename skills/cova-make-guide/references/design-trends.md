@@ -455,15 +455,20 @@ SVG 필터 정의를 1회 삽입:
 @supports (backdrop-filter: url(#liquid-glass-distortion)) {
   .liquid-glass::before {
     content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    z-index: -1; /* 필수 — 없으면 positioned ::before가 in-flow 콘텐츠 위로 그려져 카드 안 텍스트가 굴절/블러로 왜곡된다 */
     backdrop-filter: url(#liquid-glass-distortion) blur(1px);
   }
+  .liquid-glass > * { position: relative; } /* 내부 실제 콘텐츠를 굴절 레이어 위 스태킹 컨텍스트로 */
 }
 ```
 **주의: Safari·Firefox(최신 버전 포함)는 backdrop-filter의 SVG 필터 참조를 안정적으로 지원하지
 않는다 — 구형이 아니라 현행 엔진의 상시 갭이며, 이 폴백은 선택적 열화가 아니라 필수 기본
 경로다.** 그래서 굴절은 반드시 별도 `::before` 레이어로 분리해 기본 `.liquid-glass` 규칙을
-절대 덮어쓰지 않는다(덮어쓰면 실패 시 블러까지 함께 사라진다). 배경이 단색이면 굴절이 안
-보이므로 사진·그러데이션 위에서만, 페이지당 1~2요소로 제한.
+절대 덮어쓰지 않는다(덮어쓰면 실패 시 블러까지 함께 사라진다). `.liquid-glass`가 이미
+`position: relative`이므로 `::before`에 `z-index: -1`을 줘 자기 배경/보더 위·in-flow 콘텐츠
+아래에 굴절층을 깐다(kube.io 등 참조 구현과 동일 패턴) — 이게 없으면 굴절이 실제 활성화되는
+Chromium에서 카드 내부 콘텐츠가 왜곡된다. 배경이 단색이면 굴절이 안 보이므로 사진·그러데이션
+위에서만, 페이지당 1~2요소로 제한.
 
 ### D. 모션 (CSS-only · 안전 열화 필수)
 
