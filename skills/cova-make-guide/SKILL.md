@@ -55,6 +55,19 @@ curl -s "$BASE/api/public/design-patterns?tags=<태그,콤마구분>&maxSections
 `patternSnippets`의 구성·리듬만 참고하고 베끼지 않는다. 매칭이 없으면 태그를 넓히고, 패턴 0건이어도
 4단계 규칙만으로 만들 수 있다.
 
+### 3.5 라이브 트렌드 스캔 (user·소비자형 제품 스코프에서 수행)
+
+토큰을 확정하기 전에, 인터뷰로 확정된 **업종·방향 후보**로 web search를 1~2회 돌려 현재 흐름을
+확인한다(admin·도구형 제품은 saas-admin.md가 지배 → 생략하거나 "admin dashboard 2026"으로 경량).
+
+- 질의 예: `<업종> 웹디자인 2026`, `<방향 후보> web design award 2026`.
+- 결과에서 **채택 신호 2~3개 + 회피 신호(포화·클리셰가 된 것)를 따로** 뽑는다(design-trends.md
+  '라이브 트렌드 접합' 절 — 이중 용도).
+- 이 신호를 4단계 방향 커밋(후보 3개 나열·기각)과 토큰 결정의 근거로 쓰고, `DESIGN.md` frontmatter
+  `trend_signals`에 채택/회피를 기록한다.
+- **폴백**: web search 도구가 없거나 결과가 빈약하면 문서 기준으로 진행하고 `trend_signals: 미조회`로
+  남긴다. 검색은 최대 2~3회.
+
 ### 4. 디자인 시스템 확정 (스택 중립)
 
 **[references/guide-rules.md](references/guide-rules.md)를 반드시 읽고** 토큰 체계(§1)와 컴포넌트 인벤토리(§2)를
