@@ -57,13 +57,28 @@ curl -s "$BASE/api/public/design-patterns?tags=제안,관광/레저&maxSections=
 → `{ matchedTags, unmatchedTokens, optionIds, patterns:{ patternSnippets, sections } }`.
 `patternSnippets`(시안별 다양화·중복제거된 섹션 패턴)와 `optionIds`를 확보한다. 매칭이 없으면 태그를 넓힌다.
 
+### 3.5 라이브 트렌드 스캔 (user·서브·소비자형 제품에서 수행)
+
+플랜 전에, 인터뷰로 확정된 **업종·방향 후보**로 web search를 1~2회 돌려 현재 흐름을 확인한다
+(관리자·도구형 제품은 saas-admin.md가 지배하므로 생략하거나 "admin dashboard 2026"으로 가볍게만).
+
+- 질의 예: `<업종> 웹디자인 2026`, `<방향 후보> web design award 2026`.
+- 결과에서 **채택 신호 2~3개 + 회피 신호(포화·클리셰가 된 것)를 따로** 뽑는다(design-trends.md
+  '라이브 트렌드 접합' 절 — 트렌드 검색은 클리셰의 진원지라 이중 용도로만 쓴다).
+- 이 신호를 4단계 생성 게이트의 "방향 후보 3개 나열·기각"과 시그니처·무브 선택 근거로 쓰고,
+  design-plan 주석 `라이브: 채택[…] / 회피[…]`에 기록한다.
+- **폴백**: web search 도구가 없거나 결과가 빈약하면 문서 기준으로 진행하고 주석에
+  `라이브: 미조회(문서 기준)`로 남긴다. 검색은 최대 2~3회. 검색 수치·브랜드명을 카피에
+  사실처럼 넣지 않는다(design-rules.md §7).
+
 ### 4. HTML 생성
 
 **[references/design-rules.md](references/design-rules.md)를 반드시 읽고**, 유형에 따라
 **메인·서브는 [references/design-trends.md](references/design-trends.md)**, **관리자·도구형 제품은
 [references/saas-admin.md](references/saas-admin.md)**를 반드시 함께 읽는다. 그 규칙대로
 `patternSnippets`를 참고해 단일 완결형 HTML을 작성한 뒤 현재 폴더에 `./design-<slug>.html`로 저장한다.
-패턴은 **구성·레이아웃·리듬만 참고**하고 그대로 베끼지 않는다. 메인·서브는 트렌드 파일의 **생성
+패턴은 **구성·레이아웃·리듬만 참고**하고 그대로 베끼지 않는다. design-plan 주석에는 §0 스키마대로
+**섹션맵·라이브 필드까지** 채운다. 메인·서브는 트렌드 파일의 **생성
 게이트대로 디자인 방향 1개에 커밋하고 시그니처 요소 1개를 선언**하며, '디자인 과감함' 답은 방향의
 볼륨(절제=조용한 시그니처 / 균형=시그니처+무브 3~4 / 과감=최대 볼륨)으로 해석한다. 무엇을 왜
 채택했는지 analysis/approach에 반영한다.
