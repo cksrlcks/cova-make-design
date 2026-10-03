@@ -21,7 +21,7 @@ theme, SCSS 등)으로 쓰지 않는다 — 스택 번역은 `cova-apply-guide`�
 - 색: `--color-primary`, `--color-primary-strong`, `--color-secondary`, `--color-bg`, `--color-bg-soft`,
   `--color-surface`, `--color-text`, `--color-muted`, `--color-border`, `--color-success`, `--color-warning`,
   `--color-danger`, `--color-info`
-- 타이포: `--font-sans`(기본 `"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif`),
+- 타이포: `--font-sans`(admin 기본 `"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif` / user는 방향에서 고른 본문 폰트),
   `--font-display`(user 스코프 — 방향에서 도출한 헤드라인 폰트, admin은 `--font-sans`와 동일값),
   크기 `--text-xs|sm|base|lg|xl|2xl|3xl|4xl`, 행간 `--leading-tight|normal|relaxed`,
   굵기 `--weight-regular|medium|semibold|bold`
@@ -39,7 +39,7 @@ theme, SCSS 등)으로 쓰지 않는다 — 스택 번역은 `cova-apply-guide`�
 | --radius-sm/md/lg | 방향의 라운드 시스템(각짐 0~4 / 표준 6~10 / 둥긂 12~20 중 택1) | 4 / 6 / 10 (12 초과 금지) |
 | --shadow-* | 방향에 따라(브루탈리즘은 하드 섀도, 럭셔리는 거의 0) | 거의 0 — sm `0 1px 2px rgba(0,0,0,.04)`, lg는 모달 전용 |
 | --color-bg | 방향 팔레트(순백은 D12만) | #ffffff / #fafafa 2단 (다크면 표면 사다리) |
-| --color-text | 잉크(순검정 금지, #1a1a17류) | #171717 |
+| --color-text | 잉크(순검정 금지, #16181b류 — 웜블랙 #191817·#1a1714 계열은 금지 팔레트 패밀리) | #171717 |
 | 시맨틱 4색 | 액센트와 구분되는 절제 톤 | 뱃지·알럿 전용, 저채도 배경+진한 텍스트 공식 |
 
 ## 2. 컴포넌트 인벤토리 (스코프별)
@@ -56,9 +56,10 @@ theme, SCSS 등)으로 쓰지 않는다 — 스택 번역은 `cova-apply-guide`�
 
 ## 3. 시각 규칙 (사람이 만든 가이드처럼)
 
-- 본문 타이포는 Pretendard CDN:
+- 본문 타이포: admin은 Pretendard CDN
   `<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">`.
-  user 스코프의 `--font-display`는 design-trends.md 타이포 팔레트의 **검증된 CDN**에서 고르고
+  user 스코프는 design-trends.md 타이포 팔레트의 **본문 후보 표**에서 방향에 맞게 고른다(Pretendard 고정 아님 —
+  고른 폰트로 `--font-sans`를 채운다). user 스코프의 `--font-display`는 design-trends.md 타이포 팔레트의 **검증된 CDN**에서 고르고
   로드 태그를 가이드 HTML에 포함한다.
 - 뱃지·버튼·칩 등 작은 박스는 `display:inline-flex; align-items:center; justify-content:center;
   line-height:1;`로 텍스트 세로 정중앙(가장 흔한 결함).
@@ -130,7 +131,7 @@ summary: <브랜드·톤 1~2문장 + 방향 선택 근거 한 줄>
 `npx --yes playwright screenshot --viewport-size=1440,2000 <파일> shot.png`). 확인:
 - 레이아웃이 깨지지 않고 요소가 겹치지 않는가.
 - **버튼·뱃지 텍스트가 세로 정중앙**인가(flex 규칙).
-- 선언한 폰트(Pretendard + display)가 실제 적용됐는가(시스템 폰트 폴백 아님).
+- 선언한 폰트(본문 + display)가 실제 적용됐는가(시스템 폰트 폴백 아님).
 - 색 스와치의 HEX·변수명이 DESIGN.md 표와 일치하는가.
 - admin: 테이블 숫자가 우측 정렬 + tabular-nums인가, 상태 뱃지가 저채도 배경+진한 텍스트 공식인가,
   목데이터가 현실적인가.
